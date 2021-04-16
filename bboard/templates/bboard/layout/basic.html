@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
@@ -6,6 +8,7 @@
         <title>
             {% block title %}Главная{% endblock title %} - Доска объявлений
         </title>
+        <link rel="stylesheet" type="text/css" href="{% static 'bboard/style.css' %}">
     </head>
 
     <body>
