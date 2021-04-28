@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.base import View
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 
@@ -26,8 +26,17 @@ def by_rubric(request, rubric_id):
     return render(request, 'bboard/by_rubric.html', context)
 
 
-def add(request):
-    if request.method == 'POST':
+class AddView(View):
+
+    def get(self, request):
+        bbf = BbForm()
+        context = {
+            'form': bbf,
+            'rubrics': Rubric.objects.all(),
+        }
+        return render(request, 'bboard/create.html', context)
+
+    def post(self, request):
         bbf = BbForm(request.POST)
         if bbf.is_valid():
             bbf.save()
@@ -43,10 +52,3 @@ def add(request):
                 'rubrics': Rubric.objects.all(),
             }
             return render(request, 'bboard/create.html', context)
-    else:
-        bbf = BbForm()
-        context = {
-            'form': bbf,
-            'rubrics': Rubric.objects.all(),
-        }
-        return render(request, 'bboard/create.html', context)
